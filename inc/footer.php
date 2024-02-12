@@ -1,146 +1,154 @@
-<footer class="footer">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-6">
-                <script>document.write(new Date().getFullYear())</script> © MD. TAHMID
-            </div>
-            <div class="col-sm-6">
-                <div class="text-sm-end d-none d-sm-block">
-                    Crafted with <i class="mdi mdi-heart text-danger"></i> by <a href="https://themesbrand.com/"
-                        target="_blank" class="text-reset">Themesbrand</a>
+<?php 
+
+  include_once 'inc/header.php';
+  include_once 'classes/SiteOption.php';
+  $sop = new SiteOption();
+  include_once 'classes/Post.php';
+  $post = new Post();
+  include_once 'helpers/Format.php';
+  $fr = new Format();
+
+?>
+
+<footer class="site-footer">
+        <div class="container">
+          <div class="row mb-5">
+          <?php
+              $allAbout = $sop->aboutInfo();
+              if($allAbout){
+                while($arow = mysqli_fetch_assoc($allAbout)){
+                  ?>
+                    <div class="col-md-4">
+                      <h3>About Us</h3>
+                      <p class="mb-4">
+                        <img src="admin/<?=$arow['image']?>" alt="Image placeholder" class="img-fluid">
+                      </p>
+
+                      <p><?=$fr->textSorten($arow['userDetails'], 100)?><a href='about.php'>Read More</a></p>
+                    </div>
+                <?php
+                }
+              }
+                ?>
+
+            <div class="col-md-6 ml-auto">
+              <div class="row">
+              <div class="col-md-7">
+                  <h3>Latest Post</h3>
+                  <div class="post-entry-sidebar">
+              <?php
+              $allPost = $pt->showPopulerPost();
+              if($allPost){
+                while($prow = mysqli_fetch_assoc($allPost)){
+                ?>
+                    <ul>
+                      <li>
+                        <a href="">
+                          <img src="admin/<?=$prow['imageOne']?>" alt="Image placeholder" class="mr-4">
+                          <div class="text">
+                            <h4><?=$prow['title']?></h4>
+                            <div class="post-meta">
+                              <span class="mr-2"><?=$fr->fromatdate($prow['create_time'])?></span>
+                            </div>
+                          </div>
+                        </a>
+                      </li>
+                <?php
+                  }
+                }
+              ?>
+                      </ul>
+                  </div>
                 </div>
+
+                <div class="col-md-1"></div>
+                
+                <div class="col-md-4">
+
+                  <div class="mb-5">
+                    <h3>Quick Links</h3>
+                    <ul class="list-unstyled">
+                      <li><a href="about.php">About Us</a></li>
+                      <li><a href="category.php">Categories</a></li>
+                    </ul>
+                  </div>
+                  
+                  <div class="mb-5">
+                    <h3>Social</h3>
+                    <ul class="list-unstyled footer-social">
+                    <?php
+            
+            $allLink = $site->allSocial();
+            if($allLink){
+              while($row = mysqli_fetch_assoc($allLink)){
+                ?>
+                      <li><a href="<?=$row['twtter']?>"><span class="fa fa-twitter"></span> Twitter</a></li>
+                      <li><a href="<?=$row['facebook']?>"><span class="fa fa-facebook"></span> Facebook</a></li>
+                      <li><a href="<?=$row['insta']?>"><span class="fa fa-instagram"></span> Instagram</a></li>
+                      <?php
+                }
+              }
+            
+            ?>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 text-center">
+            <?php
+              $allAbout = $sop->aboutInfo();
+              if($allAbout){
+                while($arow = mysqli_fetch_assoc($allAbout)){
+                  ?>
+              <p class="small">
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy; <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.write(new Date().getFullYear());</script> All Rights Reserved | This template is made with <i class="fa fa-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" ><?=$arow['username']?></a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </p>
+            <?php
+                }
+              }
+              ?>
+            </div>
+          </div>
         </div>
+      </footer>
+      <!-- END footer -->
+
     </div>
-</footer>
-</div>
-<!-- end main content-->
+    
+    <!-- loader -->
+    <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#f4b214"/></svg></div>
 
-</div>
-<!-- END layout-wrapper -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/jquery-migrate-3.0.0.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.waypoints.min.js"></script>
+    <script src="js/jquery.stellar.min.js"></script>
 
-<!-- Right Sidebar -->
-<div class="right-bar">
-    <div data-simplebar class="h-100">
+            <!-- ckeditor -->
+            <script src="assets/libs/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
 
-        <div class="rightbar-title d-flex align-items-center px-3 py-4">
-
-            <h5 class="m-0 me-2">Settings</h5>
-
-            <a href="javascript:void(0);" class="right-bar-toggle ms-auto">
-                <i class="mdi mdi-close noti-icon"></i>
-            </a>
-        </div>
-
-
-
-        <!-- Settings -->
-        <hr class="mt-0" />
-        <h6 class="text-center mb-0">Choose Layouts</h6>
-
-        <div class="p-4">
-            <div class="mb-2">
-                <img src="assets/images/layouts/layout-1.jpg" class="img-thumbnail" alt="layout images">
-            </div>
-            <div class="form-check form-switch mb-3">
-                <input type="checkbox" class="form-check-input theme-choice" id="light-mode-switch" checked />
-                <label class="form-check-label" for="light-mode-switch">Light Mode</label>
-            </div>
-
-            <div class="mb-2">
-                <img src="assets/images/layouts/layout-2.jpg" class="img-thumbnail" alt="layout images">
-            </div>
-            <div class="form-check form-switch mb-3">
-                <input type="checkbox" class="form-check-input theme-choice" id="dark-mode-switch" />
-                <label class="form-check-label" for="dark-mode-switch">Dark Mode</label>
-            </div>
-
-            <div class="mb-2">
-                <img src="assets/images/layouts/layout-3.jpg" class="img-thumbnail" alt="layout images">
-            </div>
-            <div class="form-check form-switch mb-3">
-                <input type="checkbox" class="form-check-input theme-choice" id="rtl-mode-switch" />
-                <label class="form-check-label" for="rtl-mode-switch">RTL Mode</label>
-            </div>
-
-            <div class="mb-2">
-                <img src="assets/images/layouts/layout-4.jpg" class="img-thumbnail" alt="layout images">
-            </div>
-            <div class="form-check form-switch mb-5">
-                <input class="form-check-input theme-choice" type="checkbox" id="dark-rtl-mode-switch">
-                <label class="form-check-label" for="dark-rtl-mode-switch">Dark RTL Mode</label>
-            </div>
-
-
-        </div>
-
-    </div> <!-- end slimscroll-menu-->
-</div>
-<!-- /Right-bar -->
-
-<!-- Right bar overlay-->
-<div class="rightbar-overlay"></div>
-
-<!-- JAVASCRIPT -->
-<script src="assets/libs/jquery/jquery.min.js"></script>
-<script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/libs/metismenu/metisMenu.min.js"></script>
-<script src="assets/libs/simplebar/simplebar.min.js"></script>
-<script src="assets/libs/node-waves/waves.min.js"></script>
-<script src="assets/libs/waypoints/lib/jquery.waypoints.min.js"></script>
-<script src="assets/libs/jquery.counterup/jquery.counterup.min.js"></script>
-
-<!-- apexcharts -->
-<script src="assets/libs/apexcharts/apexcharts.min.js"></script>
-
-<script src="assets/js/pages/dashboard.init.js"></script>
-
-
-<!-- Required datatable js -->
-<script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-<!-- Buttons examples -->
-<script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-<script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-<script src="assets/libs/jszip/jszip.min.js"></script>
-<script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
-<script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
-<script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
-<script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
-<script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-
-<!-- ckeditor -->
-<script src="assets/libs/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
-
-<!-- Responsive examples -->
-<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-
-<!-- Datatable init js -->
-<script src="assets/js/pages/datatables.init.js"></script>
-
-
-<!-- App js -->
-<script src="assets/js/app.js"></script>
-
-<script>
-    ClassicEditor
-        .create(document.querySelector('#classic-editor'))
-        .catch(error => {
-            console.error(error);
-        });
-</script>
-<script>
-    ClassicEditor
-        .create(document.querySelector('#classic-editor_Two'))
-        .catch(error => {
-            console.error(error);
-        });
-</script>
-
-</body>
-
-
-<!-- Mirrored from themesbrand.com/minible/layouts/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 15 Jul 2021 13:44:57 GMT -->
-
+    
+    <script src="js/main.js"></script>
+    <script>
+        ClassicEditor
+        .create( document.querySelector( '#classic-editor' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+        </script>
+    <script>
+        ClassicEditor
+        .create( document.querySelector( '#classic-editor_Two' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+        </script>
+  </body>
 </html>

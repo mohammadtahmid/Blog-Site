@@ -1,112 +1,139 @@
-<!-- ========== Left Sidebar Start ========== -->
-<div class="vertical-menu">
+<?php 
 
-    <!-- LOGO -->
-    <div class="navbar-brand-box">
-        <a href="index.php" class="logo logo-dark">
-            <span class="logo-sm">
-                <img src="assets/images/logo-sm.png" alt="" height="22">
-            </span>
-            <span class="logo-lg">
-                <img src="assets/images/logo-dark.png" alt="" height="20">
-            </span>
-        </a>
+  include_once 'classes/User.php';
+  $user = new User();
+  include_once 'classes/SiteOption.php';
+  $site = new SiteOption();
+  include_once 'classes/Post.php';
+  $pt = new Post();
+  include_once 'classes/Category.php';
+  $ct = new Category();
+  include_once 'helpers/Format.php';
+  $fr = new Format();
 
-        <a href="index.php" class="logo logo-light">
-            <span class="logo-sm">
-                <img src="assets/images/logo-sm.png" alt="" height="22">
-            </span>
-            <span class="logo-lg">
-                <img src="assets/images/logo-light.png" alt="" height="20">
-            </span>
-        </a>
-    </div>
+?>
 
-    <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect vertical-menu-btn">
-        <i class="fa fa-fw fa-bars"></i>
-    </button>
+<div class="col-md-12 col-lg-4 sidebar">
+  <div class="sidebar-box search-form-wrap">
+    <form action="#" class="search-form">
+      <div class="form-group">
+        <span class="icon fa fa-search"></span>
+        <input type="text" class="form-control" id="s" placeholder="Type a keyword and hit enter">
+      </div>
+    </form>
+  </div>
+  <!-- END sidebar-box -->
+  <div class="sidebar-box">
 
-    <div data-simplebar class="sidebar-menu-scroll">
-
-        <!--- Sidemenu -->
-        <div id="sidebar-menu">
-            <!-- Left Menu Start -->
-            <ul class="metismenu list-unstyled" id="side-menu">
-                <li class="menu-title">Menu</li>
-
-                <li>
-                    <a href="index.php">
-                        <i class="uil-home-alt"></i><span class="badge rounded-pill bg-primary float-end">01</span>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-
-
-
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="uil-window-section"></i>
-                        <span>Category</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="true">
-                        <li>
-                            <a href="categoryadd.php">Add Category</a>
-                        </li>
-                        <li>
-                            <a href="categorylist.php">Category List</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="uil-window-section"></i>
-                        <span>Post</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="true">
-                        <li>
-                            <a href="postadd.php">Add Post</a>
-                        </li>
-                        <li>
-                            <a href="post-all.php">All Post</a>
-                        </li>
-                        <li>
-                            <a href="post-comment.php">Post comment</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="uil-window-section"></i>
-                        <span>Site Option</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="true">
-                        <li>
-                            <a href="social-link.php">Social Link</a>
-                        </li>
-                        <li>
-                            <a href="site-logo.php">Site Logo</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="about-us.php">
-                        <i class="uil-home-alt"></i>
-                        <span>About us</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="contact-us.php">
-                        <i class="uil-home-alt"></i>
-                        <span>Contact us</span>
-                    </a>
-                </li>
-            </ul>
+  <?php
+  
+    $userInfo = $user->userBio();
+    if($userInfo){
+      
+      while($uinfo = mysqli_fetch_assoc($userInfo)){
+      ?>
+      <div class="bio text-center mt-5">
+        <img src="admin/<?=$uinfo['image']?>" alt="Image Placeholder" class="img-fluid">
+        <div class="bio-body">
+          <h2><?=$uinfo['username']?></h2>
+          <p><?=$uinfo['user_bio']?></p>
+          <p><a href="#" class="btn btn-primary btn-sm rounded">Read my bio</a></p>
+          <?php
+            $allLinks = $site->allSocial();
+              if($allLink){
+                $links = mysqli_fetch_assoc($allLinks)
+                  ?>
+                  <p class="social">
+                    <a target = "_blank" href="<?=$links['facebook']?>" class="p-2"><span class="fa fa-facebook"></span></a>
+                    <a target = "_blank" href="<?=$links['twtter']?>" class="p-2"><span class="fa fa-twitter"></span></a>
+                    <a target = "_blank" href="<?=$links['insta']?>" class="p-2"><span class="fa fa-instagram"></span></a>
+                    <a target = "_blank" href="<?=$links['youtube']?>" class="p-2"><span class="fa fa-youtube-play"></span></a>
+                  </p>
+                  <?php
+                
+              }
+          ?>
+          
         </div>
-        <!-- Sidebar -->
+      </div>
+      <?php
+    }
+  }
+  ?>
+  </div>
+  <!-- END sidebar-box -->
+  <div class="sidebar-box">
+    <h3 class="heading">Popular Posts</h3>
+    <div class="post-entry-sidebar">
+      <ul>
+        <?php
+        
+        $allPost = $pt->showPopulerPost();
+        if($allPost){
+          while($prow = mysqli_fetch_assoc($allPost)){
+            ?>
+            <li>
+            <a href="">
+              <img src="admin/<?=$prow['imageOne']?>" alt="Image placeholder" class="mr-4">
+              <div class="text">
+                <h4><?=$prow['title']?></h4>
+                <div class="post-meta">
+                  <span class="mr-2"><?=$fr->fromatdate($prow['create_time'])?></span>
+                </div>
+              </div>
+            </a>
+          </li>
+          <?php
+          }
+        
+        }
+        ?>
+
+      </ul>
     </div>
+  </div>
+  <!-- END sidebar-box -->
+
+  <div class="sidebar-box">
+    <h3 class="heading">Categories</h3>
+    <ul class="categories">
+      <?php
+        $allCat = $ct->AllCategory();
+        if($allCat){
+          while($catRow = mysqli_fetch_assoc($allCat)){
+            ?>
+                <li><a href="#"><?=$catRow['catName']?>
+                <span>
+                  (<?php
+                    $catNum = $pt->catNum($catRow['catId']);
+                    if($catNum){
+                      echo $num = mysqli_num_rows($catNum);
+                    }else{
+                      echo "0";
+                    }
+                  ?>)
+                </span></a></li>
+            <?php
+          }
+        }
+      ?>
+    </ul>
+  </div>
+  <!-- END sidebar-box -->
+
+  <div class="sidebar-box">
+    <h3 class="heading">Tags</h3>
+    <ul class="tags">
+      <?php
+        $allTag = $pt->showPopulerPost();
+        if($allTag){
+          while($row = mysqli_fetch_assoc($allTag)){
+            ?>
+              <li><a href="#"><?=$row['tags']?></a></li>
+            <?php
+          }
+        }
+      ?>
+    </ul>
+  </div>
 </div>
-<!-- Left Sidebar End -->
